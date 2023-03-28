@@ -6,3 +6,5 @@ Host *
     GSSAPIDelegateCredentials no
     IdentityFile ~/.ssh/school
     PasswordAuthentication no
+    HostName 52.91.145.239
+    User ubuntu
