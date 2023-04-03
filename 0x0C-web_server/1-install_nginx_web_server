@@ -12,3 +12,5 @@ sudo /etc/init.d/nginx restart
 # Write "Hello World!" to the default HTML page
 echo "<html><body>Hello World!</body></html>" | sudo tee /var/www/html/index.html > /dev/null
 
+ufw allow 'Nginx HTTP'
+
