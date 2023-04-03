@@ -1,11 +1,11 @@
-#!/usr/bin/env bash
-# Script that configures a new Ubuntu machine to respect above requirements
+#!/bin/bash
 
+# Install Nginx
 sudo apt-get update
-sudo apt-get install -y nginx
+sudo apt-get -y install nginx
 
-echo "Hello World!" | sudo tee /var/www/html/index.html
-string_for_replacement="server_name _;\n\trewrite ^\/redirect_me https:\/\/www.blog.preciousoranye.com permanent;"
-sudo sed -i "s/server_name _;/$string_for_replacement/" /etc/nginx/sites-enabled/default
+# Configure Nginx to serve "Hello World!"
+sudo sed -i 's|server_name _;|server_name _;\n\n\tlocation / {\n\t\treturn 301 https://www.youtube.com/watch?v=QH2-TGUlwu4;\n\t}|g' /etc/nginx/sites-available/default
 
-sudo service nginx restart
+# Restart Nginx
+sudo /etc/init.d/nginx restart
