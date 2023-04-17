@@ -16,5 +16,5 @@ To use any of the files in this repository, follow the instructions provided in 
 For example, to run the Bash script that configures the firewall to allow specific incoming traffic on certain ports, execute the following command in your terminal:
 
 ```bash
-$ ./0-firewall_ABC
+$ ./0-block_all_incoming_traffic_but
 ```
