@@ -8,7 +8,7 @@ sudo apt-get install -y ufw
 sudo ufw disable
 
 # Set default incoming and outgoing traffic policies to allow
-sudo ufw default allow incoming
+sudo ufw default deny incoming
 sudo ufw default allow outgoing
 
 # Enable ufw
