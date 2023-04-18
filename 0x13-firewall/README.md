@@ -7,7 +7,7 @@ This repository contains the solutions to the tasks of the `0x13. Firewall` proj
 The repository contains the following files:
 
 * `0-block_all_incoming_traffic_but`: A Bash script that configures a firewall to allow specific incoming traffic on certain ports on a web server running on Ubuntu.
-* `100-port_forwarding`: A Bash script that configures a firewall to block all incoming traffic, except for specific traffic on certain ports, on a web server running on Ubuntu.
+* `100-port_forwarding`: Forwards all requests from port 8080 to port 80, on a web server running on Ubuntu.
 
 ## Usage
 
