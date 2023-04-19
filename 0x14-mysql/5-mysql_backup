@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+# Get current date
+DATE=`date '+%d-%m-%Y'`
+
+# Generate MySQL dump and compress it to a tar.gz archive
+mysqldump -u root -p$1 --all-databases > backup.sql
+tar czf $DATE.tar.gz backup.sql
