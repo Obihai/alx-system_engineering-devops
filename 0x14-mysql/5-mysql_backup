@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-
 # Get current date
 DATE=`date '+%d-%m-%Y'`
 
