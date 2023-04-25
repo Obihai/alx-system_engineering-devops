@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """
-This script accesses a REST API to retrieve the to-do list progress of an employee given their ID
+This script accesses a REST API to retrieve the to-do list progress
 """
 
 import requests
@@ -21,7 +21,7 @@ def get_employee_todo_progress(employee_id):
     response = requests.get(todo_url)
     tasks = response.json()
 
-    # Calculate the number of completed tasks and the list of completed task titles
+    # Calculate the number of completed tasks
     done = 0
     done_tasks = []
     for task in tasks:
@@ -36,6 +36,6 @@ def get_employee_todo_progress(employee_id):
 
 
 if __name__ == '__main__':
-    # Get the employee ID from the command line argument and call the function to retrieve the progress
+    # Get the employee ID from the command line
     employee_id = sys.argv[1]
     get_employee_todo_progress(employee_id)
