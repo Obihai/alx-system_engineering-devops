@@ -1,40 +1,30 @@
 #!/usr/bin/python3
 
 """
-prints the titles of the first 10 hot posts listed for a given subreddit
+Prints the titles of the first 10 hot posts listed for a given subreddit.
 """
 
-from requests import get
+import requests
 
-def hot_titles(subreddit):
+
+def top_ten(subreddit):
     """
-    Print the titles of the first 10 hot posts listed for a given subreddit.
-
-    Args:
-    subreddit (str): The name of the subreddit to get the hot titles for.
-
-    Returns:
-    None.
-
+    Function that queries the Reddit API and prints the titles of the first
+    10 hot posts listed for a given subreddit.
     """
-
     if not isinstance(subreddit, str):
-        print("Invalid subreddit name.")
+        print("Error: Invalid subreddit")
         return
+    
+    url = "https://www.reddit.com/r/{}/hot.json".format(subreddit)
+    params = {"limit": 10}
+    headers = {'User-agent': 'Google Chrome Version 81.0.4044.129'}
 
-    url = "https://www.reddit.com/r/" + subreddit + "/hot/.json"
-    user_agent = {'User-agent': 'Google Chrome Version 81.0.4044.129'}
-    params = {'limit': 10}
+    response = requests.get(url, headers=headers, params=params)
 
-    try:
-        response = requests.get(url, headers=headers, params=params)
-        response.raise_for_status()
-        data = response.json()
-
-        for post in data['data']['children']:
-            print(post['data']['title'])
-
-    except requests.exceptions.HTTPError as err:
-        print("HTTP error occurred:", err)
-    except requests.exceptions.RequestException as err:
-        print("An error occurred:", err)
+    if response.status_code == 200:
+        posts = response.json()["data"]["children"]
+        for post in posts:
+            print(post["data"]["title"])
+    else:
+        print("Error: {}".format(response.status_code))
