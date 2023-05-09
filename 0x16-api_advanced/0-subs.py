@@ -4,14 +4,21 @@ number of subscribers for a given subreddit
 """
 import requests
 
-def number_of_subscribers(subreddit):
-    """ Queries the Reddit API and returns the number of subscribers """
-    url = "https://www.reddit.com/r/" + subreddit + "/about.json"
-    user_agent = {'User-agent': 'Google Chrome Version 81.0.4044.129'}
-    response = requests.get(url, headers=headers, allow_redirects=False)
+def get_subreddit_subscribers(subreddit):
+    """
+    Queries the Reddit API and returns the number of subscribers
+    for a given subreddit.
+    """
+    if not isinstance(subreddit, str):
+        return 0
+
+    headers = {"User-Agent": "my_api_client"}
+    url = "https://www.reddit.com/r/{}/about.json".format(subreddit)
+    response = requests.get(url, headers=headers)
 
     if response.status_code == 200:
-        data = response.json()
-        return data['data']['subscribers']
+        data = response.json()["data"]
+        subscribers = data["subscribers"]
+        return subscribers
     else:
         return 0
