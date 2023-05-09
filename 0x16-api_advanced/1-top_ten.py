@@ -13,8 +13,7 @@ def top_ten(subreddit):
     10 hot posts listed for a given subreddit.
     """
     if not isinstance(subreddit, str):
-        print("Error: Invalid subreddit")
-        return
+        return None
 
     url = "https://www.reddit.com/r/{}/hot.json".format(subreddit)
     params = {"limit": 10}
