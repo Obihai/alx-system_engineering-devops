@@ -15,7 +15,7 @@ def top_ten(subreddit):
     if not isinstance(subreddit, str):
         print("Error: Invalid subreddit")
         return
-    
+
     url = "https://www.reddit.com/r/{}/hot.json".format(subreddit)
     params = {"limit": 10}
     headers = {'User-agent': 'Google Chrome Version 81.0.4044.129'}
