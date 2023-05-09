@@ -2,7 +2,7 @@
 """
 number of subscribers for a given subreddit
 """
-import requests
+from requests import get
 
 def get_subreddit_subscribers(subreddit):
     """
@@ -12,9 +12,9 @@ def get_subreddit_subscribers(subreddit):
     if not isinstance(subreddit, str):
         return 0
 
-    headers = {"User-Agent": "my_api_client"}
+    headers = {'User-agent': 'Google Chrome Version 81.0.4044.129'}
     url = "https://www.reddit.com/r/{}/about.json".format(subreddit)
-    response = requests.get(url, headers=headers)
+    response = get(url, headers=headers)
 
     if response.status_code == 200:
         data = response.json()["data"]
