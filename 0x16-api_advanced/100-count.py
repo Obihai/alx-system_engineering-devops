@@ -1,54 +1,47 @@
 #!/usr/bin/python3
 """ Counting words in a subreddit using reddit api"""
-
-import json
 import requests
+import json
 
 
-def count_words(subreddit, word_list, after="", count=[]):
-    """count all words"""
+def count_words(subreddit, word_list, after=None, counts=None):
+    if counts is None:
+        counts = {}
+        for word in word_list:
+            counts[word.lower()] = 0
 
-    if after == "":
-        count = [0] * len(word_list)
+    url = 'https://www.reddit.com/r/{}/hot.json'.format(subreddit)
+    headers = {'User-Agent': 'MyBot/0.0.1'}
+    params = {'limit': 100}
+    if after is not None:
+        params['after'] = after
+    response = requests.get(url, headers=headers, params=params,
+                            allow_redirects=False)
+    if response.status_code != 200:
+        return None
 
-    url = "https://www.reddit.com/r/{}/hot.json".format(subreddit)
-    request = requests.get(url,
-                           params={'after': after},
-                           allow_redirects=False,
-                           headers={'user-agent': 'bhalut'})
+    try:
+        data = response.json()
+    except ValueError:
+        return None
 
-    if request.status_code == 200:
-        data = request.json()
+    if not data.get('data') or not data['data'].get('children'):
+        return None
 
-        for topic in (data['data']['children']):
-            for word in topic['data']['title'].split():
-                for i in range(len(word_list)):
-                    if word_list[i].lower() == word.lower():
-                        count[i] += 1
+    children = data['data']['children']
+    for child in children:
+        title = child['data']['title']
+        words = [w.lower() for w in title.split()]
+        for word in word_list:
+            count = words.count(word.lower())
+            if count > 0:
+                counts[word.lower()] += count
 
-        after = data['data']['after']
-        if after is None:
-            save = []
-            for i in range(len(word_list)):
-                for j in range(i + 1, len(word_list)):
-                    if word_list[i].lower() == word_list[j].lower():
-                        save.append(j)
-                        count[i] += count[j]
-
-            for i in range(len(word_list)):
-                for j in range(i, len(word_list)):
-                    if (count[j] > count[i] or
-                            (word_list[i] > word_list[j] and
-                             count[j] == count[i])):
-                        aux = count[i]
-                        count[i] = count[j]
-                        count[j] = aux
-                        aux = word_list[i]
-                        word_list[i] = word_list[j]
-                        word_list[j] = aux
-
-            for i in range(len(word_list)):
-                if (count[i] > 0) and i not in save:
-                    print("{}: {}".format(word_list[i].lower(), count[i]))
-        else:
-            count_words(subreddit, word_list, after, count)
+    after = data['data']['after']
+    if after is None:
+        results = [(k, counts[k]) for k in counts.keys() if counts[k] > 0]
+        results.sort(key=lambda x: (-x[1], x[0]))
+        for r in results:
+            print('{}: {}'.format(r[0], r[1]))
+    else:
+        count_words(subreddit, word_list, after=after, counts=counts)
