@@ -8,3 +8,4 @@ file_line { 'replace_line':
   line   => 'define("DB_PASSWORD", "php");',
   match  => '^define\("DB_PASSWORD", "phpp"\);',
 }
+
