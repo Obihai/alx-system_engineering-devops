@@ -1,3 +1,5 @@
+# A puppet manuscript to replace a line in a file on a server
+
 $file_to_edit = '/var/www/html/wp-settings.php'
 
 file_line { 'replace_line':
