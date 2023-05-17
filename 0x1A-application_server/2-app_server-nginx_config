@@ -1,0 +1,28 @@
+server {
+    listen 80 default_server;
+    listen [::]:80 default_server;
+
+    root /var/www/html;
+
+    index index.html index.htm index.nginx-debian.html;
+
+    server_name 54.87.209.186;
+
+    location /airbnb-onepage/ {
+        proxy_pass http://localhost:5000;
+    }
+ 
+    location / {
+        return 200 "Holberton School";
+    }
+
+    location /redirect_me {
+        return 301 https://www.youtube.com/watch?v=QH2-TGUlwu4;
+    }
+
+    error_page 404 /404.html;
+
+    location = /404.html {
+        internal;
+    }
+}
